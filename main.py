@@ -3,9 +3,15 @@ from typing import List
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from random import randint
+from pydantic import BaseModel
 
 app = FastAPI()
 db = {}
+
+
+class Item(BaseModel):
+    id: str
+    text: str
 
 
 @app.get("/")
@@ -100,7 +106,8 @@ async def get(client_id: str):
 
 
 @app.post("/update")
-async def post(id: str, text: str):
-    if id in db:
-        db[id] = text
+async def post(item: Item):
+    if item.id in db:
+        db[item.id] = item.text
+        return item
 
