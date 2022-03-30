@@ -49,7 +49,7 @@ async def root():
                 
                 var response = {"text": ""};
                 while (response == {"text": ""}) {
-                    sleep(1000);
+                    sleep(2000);
                     response = httpGet("http://92.255.108.107:80/check/" + client_id) 
                 }
                 document.getElementById("msg").innerHTML = response;
@@ -69,9 +69,7 @@ async def get(client_id: str):
         </head>
         <body>
             <form id="contact-form" onsubmit="sendMessage(event)>
-                <textarea id="story" name="story"
-                          rows="5" cols="33">
-                </textarea>
+                <input type="text" id="story">
                 <input type="submit" value="Submit">
             </form>
         </body>
