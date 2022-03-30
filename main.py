@@ -87,12 +87,14 @@ async def get(client_id: str):
         <script>
             function sendMessage() {
                 var input = document.getElementById("story");
-                var url = "http://92.255.108.107:80/update";
+                var url = "http://92.255.108.107:80/update/";
                 
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", url, true);
+                xhr.setRequestHeader("Accept", "application/json");
                 xhr.setRequestHeader('Content-Type', 'application/json');
-                response = xhr.send('{id":"''' + client_id + '''","text":"jopa"}');
+                response = xhr.send('{"id": "''' + client_id + '''", "text": "jopa"}');
+                alert(response);
             }
         </script>
     </html>
@@ -105,7 +107,7 @@ async def get(client_id: str):
     return {"text": db.get(client_id, "")}
 
 
-@app.post("/update")
+@app.post("/update/")
 async def post(item: Item):
     print(item)
     if item.id in db:
