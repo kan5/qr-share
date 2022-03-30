@@ -28,7 +28,7 @@ async def root():
                 <img src="">
             </div>
             <h1 id="msg"></h1>
-            <script>
+            <script defer>
                 function httpGet(theUrl)
                 {
                     var xmlHttp = new XMLHttpRequest();
