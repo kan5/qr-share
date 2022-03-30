@@ -108,6 +108,4 @@ async def get(client_id: str):
 async def get(id: str, text: str):
     if id in db:
         db[id] = text
-        return {"error": 0}
-    else:
-        return {"error": 1}
+
