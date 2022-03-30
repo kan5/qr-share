@@ -45,7 +45,7 @@ async def root():
                   } while (currentDate - date < milliseconds);
                 }
                 
-                async wait_response(client_id) {
+                async function wait_response(client_id) {
                     var response = '{"text":""}';
                     while (response == '{"text":""}') {
                         sleep(2000);
