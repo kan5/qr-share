@@ -37,8 +37,12 @@ async def root():
                     return xmlHttp.responseText;
                 }
                 
-                function sleep(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
+                function sleep(milliseconds) {
+                  const date = Date.now();
+                  let currentDate = null;
+                  do {
+                    currentDate = Date.now();
+                  } while (currentDate - date < milliseconds);
                 }
                 
                 var client_id = """ + id + """;
@@ -49,7 +53,7 @@ async def root():
                 
                 var response = '{"text":""}';
                 while (response == '{"text":""}') {
-                    await sleep(2000);
+                    sleep(2000);
                     response = httpGet("http://92.255.108.107:80/check/" + client_id) 
                 }
                 document.getElementById("msg").innerHTML = response;
