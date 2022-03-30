@@ -89,8 +89,8 @@ async def get(client_id: str):
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 response = xhr.send(JSON.stringify({
-                    id: "''' + client_id + '''",
-                    text: input
+                    "id": "''' + client_id + '''",
+                    "text": input
                 }));
             }
         </script>
