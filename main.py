@@ -47,8 +47,8 @@ async def root():
                 qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + "http://92.255.108.107:80/client/" + client_id;
                 document.getElementById("id").innerHTML = client_id;
                 
-                var response = '{"text": ""}';
-                while (response == '{"text": ""}') {
+                var response = '{"text":""}';
+                while (response == '{"text":""}') {
                     sleep(2000);
                     response = httpGet("http://92.255.108.107:80/check/" + client_id) 
                 }
