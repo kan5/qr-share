@@ -1,83 +1,79 @@
-from typing import Optional
+from typing import List
 
-from fastapi import Cookie, Depends, FastAPI, Query, WebSocket, status
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
+from random import randint
 
 app = FastAPI()
-
-html = """
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Chat</title>
-    </head>
-    <body>
-        <h1>WebSocket Chat</h1>
-        <form action="" onsubmit="sendMessage(event)">
-            <label>Item ID: <input type="text" id="itemId" autocomplete="off" value="foo"/></label>
-            <label>Token: <input type="text" id="token" autocomplete="off" value="some-key-token"/></label>
-            <button onclick="connect(event)">Connect</button>
-            <hr>
-            <label>Message: <input type="text" id="messageText" autocomplete="off"/></label>
-            <button>Send</button>
-        </form>
-        <ul id='messages'>
-        </ul>
-        <script>
-        var ws = null;
-            function connect(event) {
-                var itemId = document.getElementById("itemId")
-                var token = document.getElementById("token")
-                ws = new WebSocket("ws://92.255.108.107:80/items/" + itemId.value + "/ws?token=" + token.value);
-                ws.onmessage = function(event) {
-                    var messages = document.getElementById('messages')
-                    var message = document.createElement('li')
-                    var content = document.createTextNode(event.data)
-                    message.appendChild(content)
-                    messages.appendChild(message)
-                };
-                event.preventDefault()
-            }
-            function sendMessage(event) {
-                var input = document.getElementById("messageText")
-                ws.send(input.value)
-                input.value = ''
-                event.preventDefault()
-            }
-        </script>
-    </body>
-</html>
-"""
+db = {}
 
 
 @app.get("/")
 async def get():
+    id = str(randint(1024, 10000))
+    while id not in db:
+        id = str(randint(1024, 10000))
+    db[id] = ""
+    html = """
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>qr-share GET</title>
+        </head>
+        <body>
+            <h1 id="msg"></h1>
+            <script>
+                function httpGet(theUrl)
+                {
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+                    xmlHttp.send();
+                    return xmlHttp.responseText;
+                }
+                var client_id = """ + id + """;
+                var response = "";
+                while (response == "") {
+                    sleep(1000).then(() => {  
+                        response = httpGet("http://92.255.108.107/check/client_id")
+                    })  
+                }
+                document.getElementById("msg").innerHTML = response;
+            </script>
+        </body>
+    </html>
+    """
     return HTMLResponse(html)
 
 
-async def get_cookie_or_token(
-    websocket: WebSocket,
-    session: Optional[str] = Cookie(None),
-    token: Optional[str] = Query(None),
-):
-    if session is None and token is None:
-        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
-    return session or token
+@app.get("/{client_id}")
+async def get(client_id: str):
+    html_mobile = '''
+    <html>
+        <head>
+            <title>qr-share POST</title>
+        </head>
+        <body>
+            <form id="contact-form" action="http://92.255.108.107/update/">
+                <input type="text" name="id" value="''' + client_id + '''">
+                <input type="text" name="text">
+                <input type="submit" value="Submit">
+            </form>
+        </body>
+        
+    </html>
+    '''
+    return HTMLResponse(html_mobile)
 
 
-@app.websocket("/items/{item_id}/ws")
-async def websocket_endpoint(
-    websocket: WebSocket,
-    item_id: str,
-    q: Optional[int] = None,
-    cookie_or_token: str = Depends(get_cookie_or_token),
-):
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        await websocket.send_text(
-            f"Session cookie or query token value is: {cookie_or_token}"
-        )
-        if q is not None:
-            await websocket.send_text(f"Query parameter q is: {q}")
-        await websocket.send_text(f"Message text was: {data}, for item ID: {item_id}")
+@app.get("/check/{client_id}")
+async def get(client_id: str):
+    return {"text": db.get(client_id)}
+
+
+@app.post("/update/")
+async def get(id: str, text: str):
+    if id in db:
+        db[id] = text
+        return {"error": False}
+    else:
+        return {"error": True}
