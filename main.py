@@ -86,7 +86,7 @@ async def get(client_id: str):
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
-                response = xhr.send('{id":"''' + client_id + '''","text":' + input + '}');
+                response = xhr.send('{id":"''' + client_id + '''","text":"jopa"}');
             }
         </script>
     </html>
