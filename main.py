@@ -107,6 +107,7 @@ async def get(client_id: str):
 
 @app.post("/update")
 async def post(item: Item):
+    print(item)
     if item.id in db:
         db[item.id] = item.text
         return item
