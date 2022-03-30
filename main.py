@@ -100,7 +100,7 @@ async def get(client_id: str):
 
 
 @app.post("/update")
-async def get(id: str, text: str):
+async def post(id: str, text: str):
     if id in db:
         db[id] = text
 
