@@ -86,7 +86,7 @@ async def get(client_id: str):
         </body>
         <script>
             function sendMessage() {
-                var input = document.getElementById("story");
+                var input = document.getElementById("story").value;
                 var url = "http://92.255.108.107:80/update/";
                 
                 var xhr = new XMLHttpRequest();
