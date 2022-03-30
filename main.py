@@ -28,7 +28,7 @@ async def root():
                 <img src="">
             </div>
             <h1 id="msg"></h1>
-            <script defer>
+            <script async >
                 function httpGet(theUrl)
                 {
                     var xmlHttp = new XMLHttpRequest();
@@ -45,18 +45,21 @@ async def root():
                   } while (currentDate - date < milliseconds);
                 }
                 
+                async wait_response(client_id) {
+                    var response = '{"text":""}';
+                    while (response == '{"text":""}') {
+                        sleep(2000);
+                        response = httpGet("http://92.255.108.107:80/check/" + client_id) 
+                    }
+                    document.getElementById("msg").innerHTML = response;
+                }
                 var client_id = """ + id + """;
                 
                 let qrImg = document.querySelector(".qr-img img");
                 qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + "http://92.255.108.107:80/client/" + client_id;
                 document.getElementById("id").innerHTML = client_id;
                 
-                var response = '{"text":""}';
-                while (response == '{"text":""}') {
-                    sleep(2000);
-                    response = httpGet("http://92.255.108.107:80/check/" + client_id) 
-                }
-                document.getElementById("msg").innerHTML = response;
+                await wait_response(client_id);
             </script>
         </body>
     </html>
