@@ -34,7 +34,7 @@ async def get():
                 var response = "";
                 while (response == "") {
                     sleep(1000).then(() => {  
-                        response = httpGet("http://92.255.108.107/check/client_id")
+                        response = httpGet("http://92.255.108.107:80/check/client_id")
                     })  
                 }
                 document.getElementById("msg").innerHTML = response;
@@ -45,7 +45,7 @@ async def get():
     return HTMLResponse(html)
 
 
-@app.get("/{client_id}")
+@app.get("/client/{client_id}")
 async def get(client_id: str):
     html_mobile = '''
     <html>
@@ -53,7 +53,7 @@ async def get(client_id: str):
             <title>qr-share POST</title>
         </head>
         <body>
-            <form id="contact-form" action="http://92.255.108.107/update/">
+            <form id="contact-form" action="http://92.255.108.107:80/update/">
                 <input type="text" name="id" value="''' + client_id + '''">
                 <input type="text" name="text">
                 <input type="submit" value="Submit">
