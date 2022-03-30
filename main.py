@@ -49,7 +49,7 @@ async def root():
                 
                 var response = '{"text":""}';
                 while (response == '{"text":""}') {
-                    sleep(2000);
+                    sleep(2000000);
                     response = httpGet("http://92.255.108.107:80/check/" + client_id) 
                 }
                 document.getElementById("msg").innerHTML = response;
@@ -98,7 +98,7 @@ async def get(client_id: str):
 
 @app.get("/check/{client_id}")
 async def get(client_id: str):
-    return {"text": db.get(client_id)}
+    return {"text": db.get(client_id, "")}
 
 
 @app.post("/update/")
