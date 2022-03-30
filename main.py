@@ -88,13 +88,11 @@ async def get(client_id: str):
             function sendMessage() {
                 var input = document.getElementById("story").value;
                 var url = "http://92.255.108.107:80/update/";
-                alert(input);
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader("Accept", "application/json");
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 response = xhr.send('{"id": "''' + client_id + '''", "text": "'+ input +'"}');
-                alert(response);
             }
         </script>
     </html>
