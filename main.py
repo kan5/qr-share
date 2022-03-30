@@ -75,13 +75,11 @@ async def get(client_id: str):
             <title>qr-share POST</title>
         </head>
         <body>
-            <form id="contact-form" onsubmit="sendMessage(event)">
                 <input type="text" id="story">
-                <input type="submit" value="Submit">
-            </form>
+                <button onclick = "sendMessage()">Send</button>  
         </body>
         <script>
-            function sendMessage(event) {
+            function sendMessage() {
                 var input = document.getElementById("story");
                 var url = "http://92.255.108.107:80/update";
                 
