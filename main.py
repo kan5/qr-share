@@ -28,7 +28,7 @@ async def root():
                 <img src="">
             </div>
             <h1 id="msg"></h1>
-            <script async >
+            <script async>
                 function httpGet(theUrl)
                 {
                     var xmlHttp = new XMLHttpRequest();
@@ -59,7 +59,7 @@ async def root():
                 qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + "http://92.255.108.107:80/client/" + client_id;
                 document.getElementById("id").innerHTML = client_id;
                 
-                await wait_response(client_id);
+                wait_response(client_id);
             </script>
         </body>
     </html>
