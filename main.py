@@ -88,7 +88,7 @@ async def get(client_id: str):
                       console.log(xhr.responseText);
                    }};
                 
-                xhr.send('{"id": "''' + client_id + '''", "text": input}')
+                xhr.send('{"id": "''' + client_id + '''", "text": ' + input + '}')
             }
         </script>
     </html>
