@@ -36,6 +36,11 @@ async def root():
                     xmlHttp.send();
                     return xmlHttp.responseText;
                 }
+                
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                
                 var client_id = """ + id + """;
                 
                 let qrImg = document.querySelector(".qr-img img");
@@ -44,9 +49,8 @@ async def root():
                 
                 var response = "";
                 while (response == "") {
-                    sleep(1000).then(() => {  
-                        response = httpGet("http://92.255.108.107:80/check/" + client_id)
-                    })  
+                    sleep(1000);
+                    response = httpGet("http://92.255.108.107:80/check/" + client_id) 
                 }
                 document.getElementById("msg").innerHTML = response;
             </script>
@@ -64,13 +68,31 @@ async def get(client_id: str):
             <title>qr-share POST</title>
         </head>
         <body>
-            <form id="contact-form" action="http://92.255.108.107:80/update/">
-                <input type="text" name="id" value="''' + client_id + '''">
-                <input type="text" name="text">
+            <form id="contact-form" onsubmit="sendMessage(event)>
+                <textarea id="story" name="story"
+                          rows="5" cols="33">
+                </textarea>
                 <input type="submit" value="Submit">
             </form>
         </body>
-        
+        <script>
+            function sendMessage(event) {
+                var input = document.getElementById("story");
+                var url = "http://92.255.108.107:80/update/";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", url);
+                xhr.setRequestHeader("Accept", "application/json");
+                xhr.setRequestHeader("Content-Type", "application/json");
+                
+                xhr.onreadystatechange = function () {
+                   if (xhr.readyState === 4) {
+                      console.log(xhr.status);
+                      console.log(xhr.responseText);
+                   }};
+                
+                xhr.send('{"id": "''' + client_id + '''", "text": input}')
+            }
+        </script>
     </html>
     '''
     return HTMLResponse(html_mobile)
