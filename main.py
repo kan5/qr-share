@@ -9,11 +9,13 @@ db = {}
 
 
 @app.get("/")
-async def get():
-    id = str(randint(1024, 10000))
-    while id not in db:
+async def root():
+    in_db = False
+    while not in_db:
         id = str(randint(1024, 10000))
-    db[id] = ""
+        if id not in db:
+            db[id] = ""
+        in_db = True
     html = """
     <!DOCTYPE html>
     <html>
@@ -21,6 +23,10 @@ async def get():
             <title>qr-share GET</title>
         </head>
         <body>
+            <h2 id="id"></h2>
+            <div class="qr-img">
+                <img src="">
+            </div>
             <h1 id="msg"></h1>
             <script>
                 function httpGet(theUrl)
@@ -31,10 +37,15 @@ async def get():
                     return xmlHttp.responseText;
                 }
                 var client_id = """ + id + """;
+                
+                let qrImg = document.querySelector(".qr-img img");
+                qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + "http://92.255.108.107:80/client/" + client_id;
+                document.getElementById("id").innerHTML = client_id;
+                
                 var response = "";
                 while (response == "") {
                     sleep(1000).then(() => {  
-                        response = httpGet("http://92.255.108.107:80/check/client_id")
+                        response = httpGet("http://92.255.108.107:80/check/" + client_id)
                     })  
                 }
                 document.getElementById("msg").innerHTML = response;
