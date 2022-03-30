@@ -68,7 +68,7 @@ async def get(client_id: str):
             <title>qr-share POST</title>
         </head>
         <body>
-            <form id="contact-form" onsubmit="sendMessage(event)>
+            <form id="contact-form" onsubmit="sendMessage(event)">
                 <input type="text" id="story">
                 <input type="submit" value="Submit">
             </form>
