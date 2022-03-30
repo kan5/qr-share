@@ -88,7 +88,7 @@ async def get(client_id: str):
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(JSON.stringify({
+                response = xhr.send(JSON.stringify({
                     id: "''' + client_id + '''",
                     text: input
                 }));
@@ -108,6 +108,6 @@ async def get(client_id: str):
 async def get(id: str, text: str):
     if id in db:
         db[id] = text
-        return {"error": False}
+        return {"error": 0}
     else:
-        return {"error": True}
+        return {"error": 1}
