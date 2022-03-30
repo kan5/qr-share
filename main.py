@@ -49,9 +49,9 @@ async def root():
                     var response = '{"text":""}';
                     while (response == '{"text":""}') {
                         sleep(2000);
-                        response = httpGet("http://92.255.108.107:80/check/" + client_id) 
+                        response = httpGet("http://92.255.108.107:80/check/" + client_id);
                     }
-                    document.getElementById("msg").innerHTML = response;
+                    return await response;
                 }
                 var client_id = """ + id + """;
                 
@@ -59,7 +59,7 @@ async def root():
                 qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + "http://92.255.108.107:80/client/" + client_id;
                 document.getElementById("id").innerHTML = client_id;
                 
-                wait_response(client_id);
+                document.getElementById("msg").innerHTML = wait_response(client_id);
             </script>
         </body>
     </html>
