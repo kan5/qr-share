@@ -16,7 +16,7 @@ class Item(BaseModel):
 async def root():
     in_db = False
     while not in_db:
-        id = str(randint(10240, 100000))
+        id = str(randint(1024, 10000))
         if id not in db:
             db[id] = ""
         in_db = True
@@ -57,6 +57,7 @@ async def root():
                     while (response == '{"text":""}') {
                         await new Promise(r => setTimeout(r, 2000));
                         response = httpGet("http://92.255.108.107:80/check/" + client_id);
+                        console.log(response)
                     }
                     document.getElementById("msg").innerHTML = response;
                 }
