@@ -116,7 +116,7 @@ async def get(client_id: str):
                 xhr.setRequestHeader("Accept", "application/json");
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 response = xhr.send('{"id": "''' + client_id + '''", "text": "'+ input +'"}');
-                xmlDoc.getElementByTagName("div") = Всё!;
+                xmlDoc.getElementByTagName("div") = "Всё!";
             }
         </script>
         <style>
