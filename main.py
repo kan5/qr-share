@@ -1,6 +1,4 @@
-from typing import List
-
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from random import randint
 from pydantic import BaseModel
@@ -18,7 +16,7 @@ class Item(BaseModel):
 async def root():
     in_db = False
     while not in_db:
-        id = str(randint(1024, 10000))
+        id = str(randint(10240, 100000))
         if id not in db:
             db[id] = ""
         in_db = True
@@ -26,13 +24,14 @@ async def root():
     <!DOCTYPE html>
     <html>
         <head>
-            <title>qr-share GET</title>
+            <title>Share</title>
         </head>
         <body>
-            <h2 id="id"></h2>
+            <h1>Scan QR code:</h1>
             <div class="qr-img">
                 <img src="">
             </div>
+            <h1>Message will be right there:</h1>
             <h1 id="msg"></h1>
             <script async>
                 function httpGet(theUrl)
@@ -57,16 +56,22 @@ async def root():
                         await new Promise(r => setTimeout(r, 2000));
                         response = httpGet("http://92.255.108.107:80/check/" + client_id);
                     }
-                    document.getElementById("msg").innerHTML = response;
+                    document.getElementById("msg").innerHTML = JSON.parse(response).text;
                 }
                 var client_id = """ + id + """;
                 
                 let qrImg = document.querySelector(".qr-img img");
                 qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + "http://92.255.108.107:80/client/" + client_id;
-                document.getElementById("id").innerHTML = client_id;
                 
                 wait_response(client_id);
             </script>
+            <style>
+                body {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center
+                }
+            </style>
         </body>
     </html>
     """
@@ -79,6 +84,7 @@ async def get(client_id: str):
     <html>
         <head>
             <title>qr-share POST</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body>
                 <input type="text" id="story">
@@ -95,6 +101,13 @@ async def get(client_id: str):
                 response = xhr.send('{"id": "''' + client_id + '''", "text": "'+ input +'"}');
             }
         </script>
+        <style>
+                body {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center
+                }
+            </style>
     </html>
     '''
     return HTMLResponse(html_mobile)
