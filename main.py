@@ -28,7 +28,7 @@ class Item(BaseModel):
 async def root():
     in_db = False
     while not in_db:
-        id = str(randint(1024, 10000))
+        id = str(randint(102400000000, 10240000000000))
         if id not in db:
             db[id] = ""
         in_db = True
