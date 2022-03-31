@@ -27,12 +27,14 @@ async def root():
             <title>Share</title>
         </head>
         <body>
+            <div>
             <h1>Scan QR code:</h1>
             <div class="qr-img">
                 <img src="">
             </div>
             <h1>Message will be right there:</h1>
             <h1 id="msg"></h1>
+            </div>
             <script async>
                 function httpGet(theUrl)
                 {
@@ -87,8 +89,10 @@ async def get(client_id: str):
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body>
+            <div>
                 <input type="text" id="story">
                 <button onclick = "sendMessage()">Send</button>  
+            </div>
         </body>
         <script>
             function sendMessage() {
