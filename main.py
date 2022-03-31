@@ -2,10 +2,22 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from random import randint
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 db = {}
 
+origins = [
+    "http://qr-share.ru/",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Item(BaseModel):
     id: str
@@ -56,15 +68,14 @@ async def root():
                     var response = '{"text":""}';
                     while (response == '{"text":""}') {
                         await new Promise(r => setTimeout(r, 2000));
-                        response = httpGet("http://92.255.108.107:80/check/" + client_id);
-                        console.log(response)
+                        response = httpGet("http://qr-share.ru/check/" + client_id);
                     }
-                    document.getElementById("msg").innerHTML = response;
+                    document.getElementById("msg").innerHTML = JSON.parse(response).text;
                 }
                 var client_id = """ + id + """;
                 
                 let qrImg = document.querySelector(".qr-img img");
-                qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + "http://92.255.108.107:80/client/" + client_id;
+                qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + "http://qr-share.ru/client/" + client_id;
                 
                 wait_response(client_id);
             </script>
@@ -98,7 +109,7 @@ async def get(client_id: str):
         <script>
             function sendMessage() {
                 var input = document.getElementById("story").value;
-                var url = "http://92.255.108.107:80/update/";
+                var url = "http://qr-share.ru/update/";
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader("Accept", "application/json");
