@@ -58,7 +58,7 @@ async def root():
                         await new Promise(r => setTimeout(r, 2000));
                         response = httpGet("http://92.255.108.107:80/check/" + client_id);
                     }
-                    document.getElementById("msg").innerHTML = JSON.parse(response).text;
+                    document.getElementById("msg").innerHTML = response;
                 }
                 var client_id = """ + id + """;
                 
