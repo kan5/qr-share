@@ -69,11 +69,13 @@ async def root():
                 
                 async function wait_response(client_id) {
                     var response = '{"text":""}';
-                    while (response == '{"text":""}') {
+                    while (0 == 0) {
                         await new Promise(r => setTimeout(r, 2000));
                         response = httpGet("http://qr-share.ru/check/" + client_id);
+                        if (response != '{"text":""}') {
+                            document.getElementById("msg").innerHTML = JSON.parse(response).text;
+                        }
                     }
-                    document.getElementById("msg").innerHTML = JSON.parse(response).text;
                 }
                 var client_id = """ + id + """;
                 
