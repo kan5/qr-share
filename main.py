@@ -3,11 +3,10 @@ from fastapi.responses import HTMLResponse
 from random import randint
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-
+import datetime
 
 app = FastAPI()
 db = {}
-
 
 origins = [
     "http://qr-share.ru/",
@@ -145,6 +144,8 @@ async def get(client_id: str):
 @app.post("/update/")
 async def post(item: Item):
     print(item)
+    with open('../what_was.txt', 'a') as f:
+        f.write(datetime.datetime.now().isoformat() + ' ' + str(item.id) + ': ' + item.text)
     if item.id in db:
         db[item.id] = item.text
         return item
