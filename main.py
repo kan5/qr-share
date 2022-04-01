@@ -38,7 +38,7 @@ async def root():
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Share</title>
+            <title>Get text via QR</title>
         </head>
         <body>
             <div>
@@ -103,7 +103,7 @@ async def get(client_id: str):
     html_mobile = '''
     <html>
         <head>
-            <title>qr-share POST</title>
+            <title>Send</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body>
