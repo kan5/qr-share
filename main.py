@@ -47,7 +47,7 @@ async def root():
                 <img src="">
             </div>
             <h1>Message will be right there:</h1>
-            <textarea id="msg" name="story" rows="5" cols="33"></textarea>
+            <h2 id="msg"></h2>
             </div>
             <script async>
                 function httpGet(theUrl)
