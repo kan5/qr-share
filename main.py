@@ -70,7 +70,7 @@ async def root():
                 async function wait_response(client_id) {
                     var response = '{"text":""}';
                     while (0 == 0) {
-                        await new Promise(r => setTimeout(r, 2000));
+                        await new Promise(r => setTimeout(r, 100));
                         response = httpGet("http://qr-share.ru/check/" + client_id);
                         if (response != '{"text":""}') {
                             document.getElementById("msg").innerHTML = JSON.parse(response).text;
@@ -107,8 +107,10 @@ async def get(client_id: str):
         </head>
         <body>
             <div>
-                <input type="text" id="story">
-                <button onclick = "sendMessage()">Send</button>  
+                <form onsubmit="sendMessage()">
+                  <input type="text" id="story">
+                  <input type="submit" value="Send">
+                </form>
             </div>
         </body>
         <script>
