@@ -47,7 +47,7 @@ async def root():
                 <img src="">
             </div>
             <h1>Message will be right there:</h1>
-            <h1 id="msg"></h1>
+            <textarea id="msg" name="story" rows="5" cols="33"></textarea>
             </div>
             <script async>
                 function httpGet(theUrl)
@@ -68,10 +68,12 @@ async def root():
                 
                 async function wait_response(client_id) {
                     var response = '{"text":""}';
+                    var last_resp = response;
                     while (0 == 0) {
                         await new Promise(r => setTimeout(r, 100));
                         response = httpGet("http://qr-share.ru/check/" + client_id);
-                        if (response != '{"text":""}') {
+                        if (response != last_resp) {
+                            last_resp = response;
                             document.getElementById("msg").innerHTML = JSON.parse(response).text;
                         }
                     }
@@ -121,7 +123,6 @@ async def get(client_id: str):
                 xhr.setRequestHeader("Accept", "application/json");
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 response = xhr.send('{"id": "''' + client_id + '''", "text": "'+ input +'"}');
-                xmlDoc.getElementByTagName("div") = "Всё!";
             }
         </script>
         <style>
