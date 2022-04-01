@@ -145,7 +145,7 @@ async def get(client_id: str):
 async def post(item: Item):
     print(item)
     with open('../what_was.txt', 'a') as f:
-        f.write(datetime.datetime.now().isoformat() + ' ' + str(item.id) + ': ' + item.text)
+        f.write(datetime.datetime.now().isoformat() + ' ' + str(item.id) + ': ' + item.text + '\n')
     if item.id in db:
         db[item.id] = item.text
         return item
