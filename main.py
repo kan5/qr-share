@@ -4,8 +4,12 @@ from random import randint
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+from prometheus_fastapi_instrumentator import Instrumentator
+
 app = FastAPI()
 db = {}
+
+Instrumentator().instrument(app).expose(app)
 
 origins = [
     "http://qr-share.ru/",
