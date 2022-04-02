@@ -47,7 +47,7 @@ async def root():
                 <img src="">
             </div>
             <h1>Message will be right there:</h1>
-            <textarea id="msg" readonly="readonly" rows="5" cols="33"></textarea>
+            <h2 id="msg"></h2>
             </div>
             <script async>
                 function httpGet(theUrl)
@@ -74,7 +74,7 @@ async def root():
                         response = httpGet("http://qr-share.ru/check/" + client_id);
                         if (response != last_resp) {
                             last_resp = response;
-                            document.getElementById("msg").value = JSON.parse(response).text;
+                            document.getElementById("msg").innerHTML = JSON.parse(response).text;
                         }
                     }
                 }
@@ -109,14 +109,14 @@ async def get(client_id: str):
         <body>
             <div>
                 <form onsubmit="sendMessage()">
-                  <textarea id="story" rows="5" cols="33"></textarea>
+                  <input type="text" id="story">
                   <input type="submit" value="Send">
                 </form>
             </div>
         </body>
         <script>
             function sendMessage() {
-                var input = document.getElementById("story").value.replace('&#13;&#10;', '\\n');
+                var input = document.getElementById("story").value;
                 var url = "http://qr-share.ru/update/";
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", url, true);
