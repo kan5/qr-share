@@ -109,7 +109,7 @@ async def get(client_id: str):
         <body>
             <div>
                 <form onsubmit="sendMessage()">
-                  <input type="text" id="story">
+                  <textarea id="story" rows="5" cols="33"></textarea>
                   <input type="submit" value="Send">
                 </form>
             </div>
