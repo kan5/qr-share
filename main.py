@@ -116,7 +116,7 @@ async def get(client_id: str):
         </body>
         <script>
             function sendMessage() {
-                var input = document.getElementById("story").value;
+                var input = document.getElementById("story").value.replace('<br />', /\r?\n/g);
                 var url = "http://qr-share.ru/update/";
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", url, true);
