@@ -47,7 +47,7 @@ async def root():
                 <img src="">
             </div>
             <h1>Message will be right there:</h1>
-            <h2 id="msg"></h2>
+            <textarea id="msg" readonly="readonly" rows="5" cols="33"></textarea>
             </div>
             <script async>
                 function httpGet(theUrl)
@@ -74,7 +74,7 @@ async def root():
                         response = httpGet("http://qr-share.ru/check/" + client_id);
                         if (response != last_resp) {
                             last_resp = response;
-                            document.getElementById("msg").innerHTML = JSON.parse(response).text;
+                            document.getElementById("msg").value = JSON.parse(response).text;
                         }
                     }
                 }
